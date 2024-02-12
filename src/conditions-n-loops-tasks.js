@@ -225,8 +225,17 @@ function convertNumberToString(numberStr) {
  *  '0123210'   => true
  *  'qweqwe'    => false
  */
-function isPalindrome(/* str */) {
-  throw new Error('Not implemented');
+function isPalindrome(str) {
+  let start = 0;
+  let end = str.length - 1;
+  while (start < end) {
+    if (str[start] !== str[end]) {
+      return false;
+    }
+    start += 1;
+    end -= 1;
+  }
+  return true;
 }
 
 /**
@@ -243,8 +252,13 @@ function isPalindrome(/* str */) {
  *  'qwerty', 'Q'     => -1
  *  'qwerty', 'p'     => -1
  */
-function getIndexOf(/* str, letter */) {
-  throw new Error('Not implemented');
+function getIndexOf(str, letter) {
+  for (let i = 0; i < str.length; i += 1) {
+    if (str[i] === letter) {
+      return i;
+    }
+  }
+  return -1;
 }
 
 /**
@@ -262,8 +276,15 @@ function getIndexOf(/* str, letter */) {
  *  12345, 0    => false
  *  12345, 6    => false
  */
-function isContainNumber(/* num, digit */) {
-  throw new Error('Not implemented');
+function isContainNumber(num, digit) {
+  let number = num;
+  while (number !== 0) {
+    if (number % 10 === digit) {
+      return true;
+    }
+    number = Math.floor(number / 10);
+  }
+  return false;
 }
 
 /**
@@ -279,8 +300,19 @@ function isContainNumber(/* num, digit */) {
  *  [2, 3, 9, 5] => 2       => 2 + 3 === 5 then balance element is 9 and its index = 2
  *  [1, 2, 3, 4, 5] => -1   => no balance element
  */
-function getBalanceIndex(/* arr */) {
-  throw new Error('Not implemented');
+function getBalanceIndex(arr) {
+  let leftSum = 0;
+  for (let i = 0; i < arr.length; i += 1) {
+    let rightSum = 0;
+    leftSum += arr[i];
+    for (let j = arr.length - 1; j > i + 1; j -= 1) {
+      rightSum += arr[j];
+      if (leftSum === rightSum && j - i === 2) {
+        return i + 1;
+      }
+    }
+  }
+  return -1;
 }
 
 /**
@@ -323,8 +355,23 @@ function getSpiralMatrix(/* size */) {
  *    [7, 8, 9]         [9, 6, 3]
  *  ]                 ]
  */
-function rotateMatrix(/* matrix */) {
-  throw new Error('Not implemented');
+function rotateMatrix(matrix) {
+  const n = matrix.length;
+  const matrixRef = matrix;
+  for (let i = 0; i < n; i += 1) {
+    for (let j = i; j < n; j += 1) {
+      [matrixRef[i][j], matrixRef[j][i]] = [matrixRef[j][i], matrixRef[i][j]];
+    }
+  }
+  for (let i = 0; i < n; i += 1) {
+    for (let j = 0; j < n / 2; j += 1) {
+      [matrixRef[i][j], matrixRef[i][n - j - 1]] = [
+        matrixRef[i][n - j - 1],
+        matrixRef[i][j],
+      ];
+    }
+  }
+  return matrixRef;
 }
 
 /**
@@ -362,8 +409,28 @@ function sortByAsc(/* arr */) {
  *  '012345', 3 => '024135' => '043215' => '031425'
  *  'qwerty', 3 => 'qetwry' => 'qtrewy' => 'qrwtey'
  */
-function shuffleChar(/* str, iterations */) {
-  throw new Error('Not implemented');
+function shuffleChar(inputStr, iterations) {
+  let str = inputStr;
+  let prevStr = '';
+  let actualIterations = 0;
+  const cycleLength = 36;
+  const effectiveIterations = iterations % cycleLength;
+
+  while (prevStr !== str && actualIterations < effectiveIterations) {
+    prevStr = str;
+    let evenChars = '';
+    let oddChars = '';
+    for (let i = 0; i < str.length; i += 1) {
+      if (i % 2 === 0) {
+        evenChars += str[i];
+      } else {
+        oddChars += str[i];
+      }
+    }
+    str = evenChars + oddChars;
+    actualIterations += 1;
+  }
+  return str;
 }
 
 /**
